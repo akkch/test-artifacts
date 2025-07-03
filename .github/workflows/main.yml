@@ -1,0 +1,47 @@
+name: Release DAL.SQL Package
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  setup:
+    runs-on: windows-latest
+    
+    # Add this defaults block
+    defaults:
+      run:
+        shell: powershell
+        # This forces every 'run' step to execute from the workspace root
+        working-directory: ${{ github.workspace }} 
+        
+    steps:
+      # It's crucial that you checkout the code first.
+      # The path in your logs suggests you are already doing this.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create .env file
+        run: |
+          "@(
+            'SMARTOOLS_REMOTE_DB_SERVER=*',
+            'SMARTOOLS_REMOTE_DB_USER=*',
+            'SMARTOOLS_REMOTE_DB_PASSWORD=*',
+            'SMARTOOLS_LOCAL_DB_SERVER=*',
+            'SMARTOOLS_LOCAL_DB_NAME=*'
+          )" | Set-Content -Path ".env"
+          
+          echo "--- .env file created in directory: $((Get-Location).Path) ---"
+
+      - name: List files in workspace
+        run: |
+          echo "--- Listing files from directory: $((Get-Location).Path) ---"
+          Get-ChildItem . -Recurse # Using '.' is now safe because of the default working-directory
+
+      - name: Upload .env artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-env
+          # This relative path now works reliably because we know the action's CWD
+          path: ${{ github.workspace }}\.env
