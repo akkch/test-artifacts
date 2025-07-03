@@ -40,7 +40,7 @@ jobs:
           path: ${{ github.workspace }}\.env
 
   release_common_library:
-    uses: 'ci-templates-for-tests/.github/workflows/reusable-nuget-release.yml@main'
+    uses: 'akkch/ci-templates-for-tests/.github/workflows/reusable-nuget-release.yml@main'
     with:
       runner_label: windows-latest
       artifact_name: integration-env
