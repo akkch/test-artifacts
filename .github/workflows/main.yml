@@ -38,3 +38,12 @@ jobs:
           name: integration-env
           # This relative path now works reliably because we know the action's CWD
           path: ${{ github.workspace }}\.env
+
+  release_common_library:
+    uses: 'ci-templates-for-tests/.github/workflows/reusable-nuget-release.yml@main'
+    with:
+      runner_label: windows-latest
+      artifact_name: integration-env
+      artifact_path: ./additional_folder/
+    secrets:
+      token: ${{ secrets.CI_PAT }}
