@@ -47,4 +47,4 @@ jobs:
       artifact_name: integration-env
       artifact_path: ./additional_folder/
     secrets:
-      token: ${{ secrets.CI_PAT }}
+      token: ${{ github.workspace }}\${{ secrets.CI_PAT }}
