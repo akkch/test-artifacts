@@ -8,19 +8,12 @@ on:
 jobs:
   setup:
     runs-on: windows-latest
-    
-    # Add this defaults block
-    defaults:
-      run:
-        shell: powershell
-        # This forces every 'run' step to execute from the workspace root
-        working-directory: ${{ github.workspace }} 
-        
+ 
     steps:
       # It's crucial that you checkout the code first.
       # The path in your logs suggests you are already doing this.
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.3.6
 
       - name: Create .env file
         run: |
